@@ -2,7 +2,7 @@ const Footer = () => {
     // @ts-ignore
     let url;
     return (<footer
-        className={'mb-0 mt-[450px] bottom-0 bg-[#011E19] h-[350px] border border-green-950 px-[320px] flex flex-row align-middle '}>
+        className={'mb-0 pt-[80px] bottom-0 bg-[#011E19] h-[450px] border border-green-950 px-[320px] flex flex-row align-middle '}>
         {/*left div*/}
         <div className={'flex-col flex justify-between text-white w-1/3 h-[100%] '}>
             {/*logo*/}

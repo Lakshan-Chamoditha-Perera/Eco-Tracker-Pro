@@ -11,6 +11,8 @@ import {
     NavbarMenuToggle
 } from "@nextui-org/react";
 
+// import {AcmeLogo} from "./AcmeLogo.jsx";
+
 export default function Nav() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
@@ -23,6 +25,8 @@ export default function Nav() {
                     className="sm:hidden"
                 />
                 <NavbarBrand>
+
+                    {/*<img src={EcoTrackerLogo} alt="Your Logo"/>*/}
                     <p className="font-bold text-inherit">ECO Tracker Pro</p>
                 </NavbarBrand>
             </NavbarContent>

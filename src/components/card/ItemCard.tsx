@@ -22,10 +22,6 @@ const ItemCard = ({element}) => {
             <b>{item.title}</b>
             <p className="text-default-500">{item.price}</p>
             <br/>
-            <button
-                className={'bg-green-500 text-white p-2 rounded-md'}
-            >Click
-            </button>
         </CardFooter>
     </Card>);
 }
