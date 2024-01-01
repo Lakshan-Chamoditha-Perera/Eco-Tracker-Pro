@@ -4,6 +4,8 @@ import Footer from "./components/layout/Footer";
 import Contact from "./views/contact/Contact";
 import SignIn from "./views/signin/SignIn";
 import Questions from "./views/q&a/Q&A";
+import SignUp from "./views/signup/SignUp";
+import Services from "./views/services/Services";
 
 export default function App() {
     const list = [{
@@ -27,12 +29,13 @@ export default function App() {
     return (<>
         <Nav/>
 
-
         {/*<div className="gap-5  grid grid-cols-2 px-40 sm:grid-cols-4">
             {list.map((item) => (<ItemCard key={item.title} element={item}/>))}
         </div>*/}
 
+        <SignUp/>
         <SignIn/>
+        <Services/>
         <Questions/>
         <Contact/>
         <Footer/>

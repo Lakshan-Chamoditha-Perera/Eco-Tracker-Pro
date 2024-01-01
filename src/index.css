@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/*//hide scroll bar*/
+/*hide scroll bar*/
 ::-webkit-scrollbar {
     display: none;
     scroll-behavior: smooth;
