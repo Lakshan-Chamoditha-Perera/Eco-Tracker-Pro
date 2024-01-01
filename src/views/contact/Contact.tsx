@@ -1,5 +1,5 @@
 const Contact = () => {
-    return (<section className={" bg-[#EAF5F1] p-[20px] h-[85vh] border flex justify-around border-red-600 mt-[50px]"}>
+    return (<section className={"bg-gradient-to-t from-[#EAF5F1] to-[#FFFFFF]  p-[20px] h-[85vh]  flex justify-around mt-[50px]"}>
 
         <div className={"row flex px-[250px] justify-around w-[100%]  flex-row  h-[100%]"}>
             {/*left*/}
@@ -21,7 +21,7 @@ const Contact = () => {
                         <div className={'w-[40px] h-[40px]'}>
                             <img src={'src/assets/icons8-call-100.png'} alt={'phone'}/>
                         </div>
-                        <h3 className={'text-xl font-bold mb-2'}>PHONE </h3>
+                        <h3 className={'text-xl font-bold mb-2'}>PHONE</h3>
                         <p className={'text-m'}>
                             +94 76 722 3131
                             <br/>
@@ -76,10 +76,4 @@ const Contact = () => {
         </div>
     </section>)
 }
-
-// m-13.33vw-> 80px
-// 3/4vh -> 75vh
-//custom text colr -> text-[#011E19]
-//bold
-//box shadow ->
 export default Contact;
