@@ -25,7 +25,6 @@ export default function Nav() {
                     className="sm:hidden"
                 />
                 <NavbarBrand>
-
                     {/*<img src={EcoTrackerLogo} alt="Your Logo"/>*/}
                     <p className="font-bold text-inherit">ECO Tracker Pro</p>
                 </NavbarBrand>
@@ -38,7 +37,6 @@ export default function Nav() {
                         Home
                     </Link>
                 </NavbarItem>
-
                 <NavbarItem >
                     <Link color="foreground" href="#">
                         About us

@@ -1,6 +1,5 @@
 import PasswordInput from "../../components/input/PasswordInput";
 import {Button, Link} from "@nextui-org/react";
-import React from "react";
 import TextField from "../../components/input/TextField";
 
 function SignUp() {
