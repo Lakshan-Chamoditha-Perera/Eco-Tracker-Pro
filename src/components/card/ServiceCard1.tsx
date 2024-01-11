@@ -1,8 +1,8 @@
 import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
 
-const ServiceCard = (props: { img_url: string | undefined; title: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; content: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }) => {
+const ServiceCard1 = (props: { img_url: string | undefined; title: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; content: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }) => {
     return (
-        <section className={'my-5'} >
+        <section className={'my-5 '} >
             <div className="bg-white shadow-lg overflow-hidden relative">
                 <div className="relative">
                     <img
@@ -24,7 +24,7 @@ const ServiceCard = (props: { img_url: string | undefined; title: string | numbe
         </section>);
 };
 
-export default ServiceCard;
+export default ServiceCard1;
 
 //z-index in tailwind -> https://tailwindcss.com/docs/z-index
 //what is inset-0 -> https://tailwindcss.com/docs/top-right-bottom-left

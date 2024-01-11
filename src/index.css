@@ -7,3 +7,12 @@
     display: none;
     scroll-behavior: smooth;
 }
+
+.custom-textarea {
+    border: 1px solid #008000; /* Green border similar to the 'success' color */
+    padding: 8px; /* Adjust padding as needed */
+    box-sizing: border-box; /* Ensure padding doesn't affect the total height */
+    outline: none; /* Remove default outline */
+    width: 100%;
+    height: auto;
+}

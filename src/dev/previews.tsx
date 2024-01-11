@@ -1,6 +1,6 @@
 import {ComponentPreview, Previews} from "@react-buddy/ide-toolbox";
 import {PaletteTree} from "./palette";
-import Nav from "../views/nav/Nav.tsx";
+import Nav from "../components/nav/Nav.tsx";
 import App from "../App.tsx";
 
 const ComponentPreviews = () => {

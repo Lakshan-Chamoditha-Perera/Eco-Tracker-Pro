@@ -1,4 +1,4 @@
-import ServiceCard from "../../components/card/ServiceCard";
+import ServiceCard1 from "../../components/card/ServiceCard1.tsx";
 
 interface Service {
     title: string,
@@ -26,7 +26,8 @@ let services: Service[] = [{
 }]
 
 const Services = () => {
-    return (<section className={'py-[50px] '}>
+    return (
+        <section className={'py-[50px] '}>
         <div className={'flex flex-col items-center mb-[50px]'}>
             <h2 className={'text-3xl  font-medium text-[#0FAF72]'}>
                 SERVICES
@@ -37,8 +38,7 @@ const Services = () => {
         </div>
         {
             services.map((service, index) => (
-                <ServiceCard key={index} title={service.title} content={service.content} img_url={service.img_url}/>
-
+                <ServiceCard1 key={index} title={service.title} content={service.content} img_url={service.img_url}/>
             ))
         }
     </section>);

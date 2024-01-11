@@ -1,13 +1,14 @@
+import Logo from '../../assets/Eco Track Pro Logo.png';
+import WhatsApp_Logo from '../../assets/whatsapp.png';
+
 const Footer = () => {
-    // @ts-ignore
-    let url;
     return (<footer
         className={'mb-0 pt-[80px] bottom-0 bg-[#011E19] h-[450px] border border-green-950 px-[320px] flex flex-row align-middle '}>
         {/*left div*/}
         <div className={'flex-col flex justify-between text-white w-1/3 h-[100%] '}>
             {/*logo*/}
             <div className={'h-[150px] border-white border-2 shadow-md rounded'}>
-                <img src="src/assets/Eco Track Pro Logo.png" title="logo" alt="logo"
+                <img src={Logo} title="logo" alt="logo"
                      className={'rounded border-white border-2 h-[100%] w-[100%] object-cover'}/>
             </div>
             {/*middle*/}
@@ -27,7 +28,7 @@ const Footer = () => {
                              className={'h-[100%] w-[100%] rounded-full object-cover'}/>
                     </li>
                     <li className={'text-[10px] h-[50px] w-[50px]'}>
-                        <img src="src/assets/whatsapp.png" title="logo" alt="logo"
+                        <img src={WhatsApp_Logo} title="logo" alt="logo"
                              className={'h-[100%] w-[100%] rounded-full  object-cover'}/>
                     </li>
                 </ul>

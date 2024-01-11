@@ -1,5 +1,3 @@
-import {Button} from "@nextui-org/react";
-
 const HeroSection1 = () => {
     return (
         <section

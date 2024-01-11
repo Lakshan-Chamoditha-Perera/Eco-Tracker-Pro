@@ -1,6 +1,7 @@
 import {Card, CardBody, CardFooter, Image} from "@nextui-org/react";
 import {useState} from "react";
 
+// @ts-ignore
 const ItemCard = ({element}) => {
     const [item] = useState(element);
     const handleButtonClick = () => {

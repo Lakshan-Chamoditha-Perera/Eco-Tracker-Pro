@@ -11,8 +11,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <NextUIProvider>
             <DevSupport ComponentPreviews={ComponentPreviews}
-                        useInitialHook={useInitial}
-            >
+                        useInitialHook={useInitial}>
                 <App/>
             </DevSupport>
         </NextUIProvider>

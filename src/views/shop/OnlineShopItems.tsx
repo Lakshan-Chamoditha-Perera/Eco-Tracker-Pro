@@ -80,5 +80,5 @@ const OnlineShopItems = () => {
 }
 
 export default OnlineShopItems;
-//intall axios -> npm i axios
-//grid in tailwindcss -> https://tailwindcss.com/docs/grid-template-columns
+
+//install axios -> npm i axios
