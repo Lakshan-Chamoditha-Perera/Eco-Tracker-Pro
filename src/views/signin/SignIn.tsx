@@ -23,8 +23,6 @@ function SignIn() {
     const login = () => {
 
         let validated = new Promise((resolve, reject) => {
-            // Assuming emailRegex is defined somewhere
-            console.log(emailRegex.test(email));
             (emailRegex.test(email) && password.length > 0) ? resolve(true) : reject("Invalid email or password");
         });
 
