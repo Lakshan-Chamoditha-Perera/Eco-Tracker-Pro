@@ -1,11 +1,12 @@
 import TextField from "../../../../components/input/TextField.tsx";
 import { Button } from "@nextui-org/react";
 import ServiceCard2 from "../../../../components/card/ServiceCard2.tsx";
-import { React, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ServiceDto } from "../../../../dto/service.dto.ts";
 import axios from "axios";
 import StandardResponse from "../../../../dto/rsp/StandardResponse.tsx";
 import Swal from "sweetalert2";
+import { IoTrashBin } from "react-icons/io5";
 
 interface Service {
   title: string;
@@ -13,61 +14,10 @@ interface Service {
   img_url: string;
 }
 
-// 5 services
-let services: Service[] = [
-  {
-    title: "Residential Trash Pickup",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta eaque eveniet exercitationem fugiat molestias neque quia quisquam temporibus totam voluptates. Dolorem error esse eveniet fugiat iure nemo qui recusandae repellendus",
-    img_url: "src/assets/services1.jpg",
-  },
-  {
-    title: "Bulk Trash  Pickup & Recycling Service",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta eaque eveniet exercitationem fugiat molestias neque quia quisquam temporibus totam voluptates. Dolorem error esse eveniet fugiat iure nemo qui recusandae repellendus",
-    img_url: "src/assets/services2.jpg",
-  },
-  {
-    title: "Road Sweeping",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta eaque eveniet exercitationem fugiat molestias neque quia quisquam temporibus totam voluptates. Dolorem error esse eveniet fugiat iure nemo qui recusandae repellendus",
-    img_url: "src/assets/services3.png",
-  },
-  {
-    title: "Weed Removal & Gardening",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta eaque eveniet exercitationem fugiat molestias neque quia quisquam temporibus totam voluptates. Dolorem error esse eveniet fugiat iure nemo qui recusandae repellendus",
-    img_url: "src/assets/services4.png",
-  },
-  {
-    title: "Weed Removal & Gardening",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta eaque eveniet exercitationem fugiat molestias neque quia quisquam temporibus totam voluptates. Dolorem error esse eveniet fugiat iure nemo qui recusandae repellendus",
-    img_url: "src/assets/services4.png",
-  },
-  {
-    title: "Weed Removal & Gardening",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta eaque eveniet exercitationem fugiat molestias neque quia quisquam temporibus totam voluptates. Dolorem error esse eveniet fugiat iure nemo qui recusandae repellendus",
-    img_url: "src/assets/services4.png",
-  },
-  {
-    title: "Weed Removal & Gardening",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta eaque eveniet exercitationem fugiat molestias neque quia quisquam temporibus totam voluptates. Dolorem error esse eveniet fugiat iure nemo qui recusandae repellendus",
-    img_url: "src/assets/services4.png",
-  },
-  {
-    title: "Weed Removal & Gardening",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta eaque eveniet exercitationem fugiat molestias neque quia quisquam temporibus totam voluptates. Dolorem error esse eveniet fugiat iure nemo qui recusandae repellendus",
-    img_url: "src/assets/services4.png",
-  },
-];
 const ManageServices = () => {
   const [serviceList, setServiceList] = useState<ServiceDto[]>([]);
 
-  useEffect(() => {
+  let refreshServiceList = () => {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
@@ -80,6 +30,10 @@ const ManageServices = () => {
       let data = rspData.data as ServiceDto[];
       setServiceList(data);
     });
+  };
+
+  useEffect(() => {
+    refreshServiceList();
   }, []);
 
   return (
@@ -103,11 +57,11 @@ const ManageServices = () => {
 
         <ul
           className={
-            "flex flex-row w-full max-h-fit justify-between overflow-y-scroll"
+            "flex flex-row w-full max-h-350px justify-between overflow-y-scroll"
           }
         >
           {serviceList.map((element, index) => (
-            <li key={index} className={"mx-[20px]"}>
+            <li key={index} className={"m-[10px] border border-red-500"}>
               <ServiceCard2
                 // TODO: implement onClick
                 name={element.name}
@@ -117,6 +71,36 @@ const ManageServices = () => {
                 id={element.id}
                 service_id={element.service_id}
               />
+              <div
+                className={
+                  " border-3 pb-5 flex w-full h-[17%] flex-row px-1 justify-end "
+                }
+              >
+                <div className={"flex flex-row border"}>
+                  <Button
+                    className={"w-full h-full text-[15px] bold text-white"}
+                    color={"warning"}
+                    onClick={() => {
+                      console.log(element.service_id);
+                      Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won't be able to revert this !",
+                        icon: "warning",
+                        confirmButtonColor: "#0FAF72",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, delete it!",
+                      }).then((result) => {
+                        console.log(result);
+                        if (result.isConfirmed) {
+                          deleteService(element.service_id);
+                        }
+                      });
+                    }}
+                  >
+                    <IoTrashBin />
+                  </Button>
+                </div>
+              </div>
             </li>
           ))}
         </ul>
@@ -215,6 +199,23 @@ const ManageServices = () => {
       </section>
     </div>
   );
+  async function deleteService(id: string) {
+    axios
+      .delete("http://localhost:3001/service/delete", {
+        params: {
+          service_id: `${id}`,
+        },
+      })
+      .then((response) => {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+          confirmButtonColor: "#0FAF72",
+        });
+        refreshServiceList();
+      });
+  }
 };
 
 export default ManageServices;
