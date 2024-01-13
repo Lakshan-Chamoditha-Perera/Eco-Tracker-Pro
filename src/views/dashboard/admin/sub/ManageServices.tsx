@@ -7,7 +7,7 @@ import axios from "axios";
 import StandardResponse from "../../../../dto/rsp/StandardResponse.tsx";
 import Swal from "sweetalert2";
 import { IoTrashBin } from "react-icons/io5";
-import { RadioGroup, Radio, select } from "@nextui-org/react";
+import { RadioGroup, Radio } from "@nextui-org/react";
 
 const ManageServices = () => {
   const [serviceList, setServiceList] = useState<ServiceDto[]>([]);
@@ -19,7 +19,7 @@ const ManageServices = () => {
   const [img_1, setImg_1] = useState<string>("");
   const [img_2, setImg_2] = useState<string>("");
   const [selected, setSelected] = useState("available");
-  const [remark, setRemark] = useState<string>("");
+  const [remarks, setRemarks] = useState<string>("");
 
   const handleNameChange = (newValue: string) => {
     setName(newValue);
@@ -31,7 +31,7 @@ const ManageServices = () => {
     setPrice(Number(newValue));
   };
   const handleRemarkChange = (newValue: string) => {
-    setRemark(newValue);
+    setRemarks(newValue);
   };
 
   let refreshServiceList = () => {
@@ -79,15 +79,28 @@ const ManageServices = () => {
           }
         >
           {serviceList.map((element, index) => (
-            <li key={index} className={"m-[10px] border border-red-500"}>
+            <li
+              key={index}
+              className={"m-[10px] border border-red-500"}
+              onClick={() => {
+                setService_id(element.service_id);
+                setName(element.name);
+                setDescription(element.description);
+                setPrice(element.price);
+                setRemarks(element.remarks);
+                setSelected(
+                  element.availability ? "available" : "not-available"
+                );
+              }}
+            >
               <ServiceCard2
-                // TODO: implement onClick
                 name={element.name}
                 description={element.description}
                 price={element.price}
                 status={element.availability}
                 id={element.id}
                 service_id={element.service_id}
+                remark={element.remarks}
               />
               <div
                 className={
@@ -201,7 +214,7 @@ const ManageServices = () => {
               label="Remark"
               placeholder="  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium"
               type="text"
-              value={remark}
+              value={remarks}
               isRequired={true}
               color={"success"}
               onChange={handleRemarkChange}
@@ -248,6 +261,7 @@ const ManageServices = () => {
             className={
               "bg-[#0FAF72] hover:shadow-l w-[10%] h-[60%]  text-white font-medium rounded-[20px] py-[10px] hover:bg-green-400"
             }
+            onClick={updateService}
           >
             Update
           </Button>
@@ -269,7 +283,7 @@ const ManageServices = () => {
         description: `${description}`,
         price: `${price}`,
         availability: selected == "available" ? true : false,
-        remark: `${remark}`,
+        remarks: `${remarks}`,
       },
     };
 
@@ -289,6 +303,46 @@ const ManageServices = () => {
         Swal.fire({
           title: "Error!",
           text: "Service has not been saved.",
+          icon: "error",
+          confirmButtonColor: "#0FAF72",
+        });
+      });
+  }
+
+  async function updateService() {
+    let config = {
+      method: "put",
+      maxBodyLength: Infinity,
+      url: "http://localhost:3001/service/update",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
+        service_id: `${service_id}`,
+        name: `${name}`,
+        description: `${description}`,
+        price: `${price}`,
+        availability: selected == "available" ? true : false,
+        remarks: `${remarks}`,
+      },
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(response.data);
+        Swal.fire({
+          title: "Success!",
+          text: "Service has been updated.",
+          icon: "success",
+          confirmButtonColor: "#0FAF72",
+        });
+        refreshServiceList();
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Error!",
+          text: "Service has not been updated.",
           icon: "error",
           confirmButtonColor: "#0FAF72",
         });

@@ -1,7 +1,4 @@
-import { useEffect, useState } from "react";
-import { Button } from "@nextui-org/react";
-import Swal from "sweetalert2";
-import axios from "axios";
+import { useState } from "react";
 
 const ServiceCard2 = (props: any) => {
   const [name, setName] = useState(props.name);
@@ -10,6 +7,8 @@ const ServiceCard2 = (props: any) => {
   const [status, setStatus] = useState(props.status);
   const [Image, setImage] = useState(props.Image);
   const [id, setId] = useState(props.id);
+  const [remarks, setRemarks] = useState(props.remarks);
+  const [availability, setAvailability] = useState(props.availability);
   const [service_id, setService_id] = useState<string>(props.service_id);
 
   return (
@@ -24,13 +23,12 @@ const ServiceCard2 = (props: any) => {
           <p>{description}</p>
           <h1>{price}</h1>
           <h1>{status}</h1>
+          <h1>{remarks}</h1>
+          <h1>{availability}</h1>
         </div>
       </div>
-      
     </div>
   );
-
- 
 };
 
 export default ServiceCard2;
