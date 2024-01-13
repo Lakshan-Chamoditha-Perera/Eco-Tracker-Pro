@@ -7,15 +7,32 @@ import axios from "axios";
 import StandardResponse from "../../../../dto/rsp/StandardResponse.tsx";
 import Swal from "sweetalert2";
 import { IoTrashBin } from "react-icons/io5";
-
-interface Service {
-  title: string;
-  content: string;
-  img_url: string;
-}
+import { RadioGroup, Radio, select } from "@nextui-org/react";
 
 const ManageServices = () => {
   const [serviceList, setServiceList] = useState<ServiceDto[]>([]);
+
+  const [service_id, setService_id] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [price, setPrice] = useState<number>(0);
+  const [img_1, setImg_1] = useState<string>("");
+  const [img_2, setImg_2] = useState<string>("");
+  const [selected, setSelected] = useState("available");
+  const [remark, setRemark] = useState<string>("");
+
+  const handleNameChange = (newValue: string) => {
+    setName(newValue);
+  };
+  const handleDescriptionChange = (newValue: string) => {
+    setDescription(newValue);
+  };
+  const handlePriceChange = (newValue: string) => {
+    setPrice(Number(newValue));
+  };
+  const handleRemarkChange = (newValue: string) => {
+    setRemark(newValue);
+  };
 
   let refreshServiceList = () => {
     let config = {
@@ -34,6 +51,7 @@ const ManageServices = () => {
 
   useEffect(() => {
     refreshServiceList();
+    // getOngoingServiceID();
   }, []);
 
   return (
@@ -76,30 +94,28 @@ const ManageServices = () => {
                   " border-3 pb-5 flex w-full h-[17%] flex-row px-1 justify-end "
                 }
               >
-                <div className={"flex flex-row border"}>
-                  <Button
-                    className={"w-full h-full text-[15px] bold text-white"}
-                    color={"warning"}
-                    onClick={() => {
-                      console.log(element.service_id);
-                      Swal.fire({
-                        title: "Are you sure?",
-                        text: "You won't be able to revert this !",
-                        icon: "warning",
-                        confirmButtonColor: "#0FAF72",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, delete it!",
-                      }).then((result) => {
-                        console.log(result);
-                        if (result.isConfirmed) {
-                          deleteService(element.service_id);
-                        }
-                      });
-                    }}
-                  >
-                    <IoTrashBin />
-                  </Button>
-                </div>
+                <Button
+                  className={"w-[25%] h-full text-[20px] bold text-white"}
+                  color={"warning"}
+                  onClick={() => {
+                    console.log(element.service_id);
+                    Swal.fire({
+                      title: "Are you sure?",
+                      text: "You won't be able to revert this !",
+                      icon: "warning",
+                      confirmButtonColor: "#0FAF72",
+                      cancelButtonColor: "#d33",
+                      confirmButtonText: "Yes, delete it!",
+                    }).then((result) => {
+                      console.log(result);
+                      if (result.isConfirmed) {
+                        deleteService(element.service_id);
+                      }
+                    });
+                  }}
+                >
+                  <IoTrashBin />
+                </Button>
               </div>
             </li>
           ))}
@@ -121,6 +137,7 @@ const ManageServices = () => {
               label="Service ID"
               placeholder="S001"
               type="text"
+              value={service_id}
               isRequired={true}
               color={"success"}
             />
@@ -131,7 +148,9 @@ const ManageServices = () => {
               placeholder="Service 1"
               type="text"
               isRequired={true}
+              value={name}
               color={"success"}
+              onChange={handleNameChange}
             />
           </div>
           <div className={"flex justify-end"}>
@@ -139,17 +158,53 @@ const ManageServices = () => {
               label="Description"
               placeholder="  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium"
               type="text"
+              value={description}
               isRequired={true}
               color={"success"}
+              onChange={handleDescriptionChange}
             />
           </div>
-          <div className={"flex justify-end"}>
+
+          <div
+            className={
+              " border gap-2 grid grid-cols-2 text-[15px] rounded-[13px]  justify-start"
+            }
+          >
             <TextField
               label="Price Per day"
               placeholder="49.99"
               type="text"
               isRequired={true}
               color={"success"}
+              value={price}
+              onChange={handlePriceChange}
+            />
+
+            <div
+              className={
+                "flex bg-[#EAFAF1] rounded-[15px] px-1 mx-2 justify-start"
+              }
+            >
+              <RadioGroup
+                label="Availability"
+                orientation="horizontal"
+                value={selected}
+                onChange={(e) => setSelected(e.target.value)}
+              >
+                <Radio value="available">yes</Radio>
+                <Radio value="not-available">no</Radio>
+              </RadioGroup>
+            </div>
+          </div>
+          <div className={"flex justify-end"}>
+            <TextField
+              label="Remark"
+              placeholder="  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium"
+              type="text"
+              value={remark}
+              isRequired={true}
+              color={"success"}
+              onChange={handleRemarkChange}
             />
           </div>
 
@@ -184,6 +239,7 @@ const ManageServices = () => {
             className={
               "bg-[#0FAF72] mr-2 hover:shadow-l w-[10%] h-[60%]  text-white font-medium rounded-[20px] py-[10px] hover:bg-green-400"
             }
+            onClick={saveService}
           >
             Save
           </Button>
@@ -199,6 +255,46 @@ const ManageServices = () => {
       </section>
     </div>
   );
+
+  async function saveService() {
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "http://localhost:3001/service/save",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
+        name: `${name}`,
+        description: `${description}`,
+        price: `${price}`,
+        availability: selected == "available" ? true : false,
+        remark: `${remark}`,
+      },
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(response.data);
+        Swal.fire({
+          title: "Success!",
+          text: "Service has been saved.",
+          icon: "success",
+          confirmButtonColor: "#0FAF72",
+        });
+        refreshServiceList();
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Error!",
+          text: "Service has not been saved.",
+          icon: "error",
+          confirmButtonColor: "#0FAF72",
+        });
+      });
+  }
+
   async function deleteService(id: string) {
     axios
       .delete("http://localhost:3001/service/delete", {
