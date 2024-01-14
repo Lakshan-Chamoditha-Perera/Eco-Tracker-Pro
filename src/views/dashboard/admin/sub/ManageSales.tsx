@@ -63,6 +63,7 @@ const ManageSales = () => {
             <div className={"flex  p-1 justify-end col-span-2"}>
               <TextField
                 label="Name"
+                value={name}
                 placeholder="Item 1"
                 type="text"
                 isRequired={true}
@@ -71,6 +72,7 @@ const ManageSales = () => {
             </div>
             <div className={"flex  p-1 justify-end col-span-2"}>
               <TextField
+                value={description}
                 label="Description"
                 placeholder="  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium"
                 type="text"
@@ -80,6 +82,7 @@ const ManageSales = () => {
             </div>
             <div className={"flex p-1  justify-end col-span-2"}>
               <TextField
+                value={price}
                 label="Price "
                 placeholder="49.99"
                 type="text"
@@ -89,6 +92,7 @@ const ManageSales = () => {
             </div>
             <div className={"flex  p-1 justify-end col-span-2"}>
               <TextField
+                value={qty}
                 label="Qty"
                 placeholder="10"
                 type="text"
@@ -135,7 +139,19 @@ const ManageSales = () => {
           }
         >
           {itemList.map((item, index) => (
-            <ItemCard key={item.id} element={item} />
+            <div className="w-full h-full border" key={item.id}>
+              <ItemCard
+                item={item}
+                key={item.id}
+                action={() => {
+                  setId(item.id);
+                  setName(item.name);
+                  setDescription(item.description);
+                  setPrice(item.price);
+                  setQty(item.qty);
+                }}
+              />
+            </div>
           ))}
         </div>
       </section>
