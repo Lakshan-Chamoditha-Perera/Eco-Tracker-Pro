@@ -3,6 +3,7 @@ import { Button } from "@nextui-org/react";
 import ItemCard from "../../../../components/card/ItemCard.tsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 import StandardResponse from "../../../../dto/rsp/StandardResponse.tsx";
 import { ItemDto } from "../../../../dto/item.dto.ts";
 
@@ -13,6 +14,59 @@ const ManageSales = () => {
   const [price, setPrice] = useState<number>(0);
   const [qty, setQty] = useState<number>(0);
   const [itemList, setItemList] = useState<ItemDto[]>([]);
+
+  const saveItem = () => {
+    let config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      url: "http://localhost:3001/item/save",
+      data: {
+        name: name,
+        description: description,
+        price: price,
+        qty: qty,
+      },
+    };
+
+    let rsp = axios.request(config);
+
+    rsp.then((response) => {
+      console.log(response.data);
+      let rsp = response.data as StandardResponse;
+      if (rsp.status === 200) {
+        Swal.fire("Success", rsp.message, "success");
+        fetchItemList();
+      } else {
+        Swal.fire("Error", rsp.message, "error");
+      }
+    });
+  };
+
+  const handleNameChange = (newValue: string) => {
+    setName(newValue);
+  };
+
+  const handleDescriptionChange = (newValue: string) => {
+    setDescription(newValue);
+  };
+
+  const handlePriceChange = (newValue: string) => {
+    try {
+      setPrice(parseInt(newValue));
+    } catch (e) {
+      Swal.fire("Invalid Price");
+    }
+  };
+
+  const handleQtyChange = (newValue: string) => {
+    try {
+      setQty(parseInt(newValue));
+    } catch (e) {
+      Swal.fire("Invalid Qty");
+    }
+  };
 
   const fetchItemList = () => {
     let config = {
@@ -26,6 +80,7 @@ const ManageSales = () => {
     let rsp = axios.request(config);
 
     rsp.then((response) => {
+      console.log(response.data);
       let rsp = response.data as StandardResponse;
       let data = rsp.data as ItemDto[];
       setItemList(data);
@@ -63,41 +118,45 @@ const ManageSales = () => {
             <div className={"flex  p-1 justify-end col-span-2"}>
               <TextField
                 label="Name"
-                value={name}
                 placeholder="Item 1"
                 type="text"
                 isRequired={true}
                 color={"success"}
+                onChange={handleNameChange}
+                value={name}
               />
             </div>
             <div className={"flex  p-1 justify-end col-span-2"}>
               <TextField
-                value={description}
                 label="Description"
                 placeholder="  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium"
                 type="text"
                 isRequired={true}
                 color={"success"}
+                onChange={handleDescriptionChange}
+                value={description}
               />
             </div>
             <div className={"flex p-1  justify-end col-span-2"}>
               <TextField
-                value={price}
                 label="Price "
                 placeholder="49.99"
                 type="text"
                 isRequired={true}
                 color={"success"}
+                onChange={handlePriceChange}
+                value={price}
               />
             </div>
             <div className={"flex  p-1 justify-end col-span-2"}>
               <TextField
-                value={qty}
                 label="Qty"
                 placeholder="10"
                 type="text"
                 isRequired={true}
                 color={"success"}
+                onChange={handleQtyChange}
+                value={qty}
               />
             </div>
           </div>
@@ -115,7 +174,10 @@ const ManageSales = () => {
           </div>
         </form>
         <div className={"flex flex-row justify-end p-2"}>
-          <Button className={"bg-green-500 text-white rounded-[10px] p-2 m-2"}>
+          <Button
+            className={"bg-green-500 text-white rounded-[10px] p-2 m-2"}
+            onPress={saveItem}
+          >
             Save
           </Button>
           <Button className={"bg-yellow-500 text-white rounded-[10px] p-2 m-2"}>
@@ -139,19 +201,18 @@ const ManageSales = () => {
           }
         >
           {itemList.map((item, index) => (
-            <div className="w-full h-full border" key={item.id}>
-              <ItemCard
-                item={item}
-                key={item.id}
-                action={() => {
-                  setId(item.id);
-                  setName(item.name);
-                  setDescription(item.description);
-                  setPrice(item.price);
-                  setQty(item.qty);
-                }}
-              />
-            </div>
+            <ItemCard
+              key={item.id}
+              element={item}
+              onPress={() => {
+                setName(item.name);
+                setDescription(item.description);
+                setPrice(item.price);
+                setQty(item.qty);
+                setId(item.id);
+                Swal.fire("Clicked");
+              }}
+            />
           ))}
         </div>
       </section>
