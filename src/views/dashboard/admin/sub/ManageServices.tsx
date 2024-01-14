@@ -51,17 +51,18 @@ const ManageServices = () => {
 
   useEffect(() => {
     refreshServiceList();
-    // getOngoingServiceID();
   }, []);
 
   return (
-    <div className="py-3">
+    <div className="py-3 bg-[#FBFBFB] ">
       <div
         className={
-          "flex w-0.8 justify-evenly p-2 min-h-[300px] flex-col border rounded-[20px] border-red-500"
+          "flex w-0.8 bg-white drop-shadow-l shadow-lg justify-evenly p-2 min-h-[300px] flex-col rounded-[20px]"
         }
       >
-        <h1 className={"text-5xl font-medium mb-5 text-green-500"}>Services</h1>
+        <h1 className={"text-5xl  font-medium mb-5 text-green-500"}>
+          Services
+        </h1>
         {/**/}
         {/*grid grid-cols-4 border gap-4*/}
         {/*{
@@ -81,7 +82,9 @@ const ManageServices = () => {
           {serviceList.map((element, index) => (
             <li
               key={index}
-              className={"m-[10px] border border-red-500"}
+              className={
+                "m-[10px]  bg-white drop-shadow-l shadow-lg rounded-[20px]"
+              }
               onClick={() => {
                 setService_id(element.service_id);
                 setName(element.name);
@@ -102,14 +105,11 @@ const ManageServices = () => {
                 service_id={element.service_id}
                 remark={element.remarks}
               />
-              <div
-                className={
-                  " border-3 pb-5 flex w-full h-[17%] flex-row px-1 justify-end "
-                }
-              >
+              <div className={"pb-5 flex w-full flex-row px-1 justify-end "}>
                 <Button
-                  className={"w-[25%] h-full text-[20px] bold text-white"}
-                  color={"warning"}
+                  className={
+                    " rounded-full hover:bg-red-200  bg-white drop-shadow-l shadow-lg   w-[10px] h-[80px] text-[50px] bold text-[red]"
+                  }
                   onClick={() => {
                     console.log(element.service_id);
                     Swal.fire({
@@ -136,15 +136,15 @@ const ManageServices = () => {
       </div>
 
       <section
-        className={"flex flex-col mt-[50px] border p-[20px] rounded-[20px]"}
+        className={
+          "flex flex-col mt-[50px] bg-white drop-shadow-l justify-around items-center shadow-lg border p-[20px] rounded-[20px]"
+        }
       >
-        <h2 className={"text-[20px] font-medium text-[#004B50]"}>
+        <h2 className={"text-2xl w-full font-bold text-[#004B50]"}>
           Manage Services
         </h2>
 
-        <form
-          className={"p-[20px] border w-[80%] grid bg-white grid-rows-8 gap-5 "}
-        >
+        <form className={"p-[20px] w-[80%] grid bg-white grid-rows-8 gap-5 "}>
           <div className={"flex justify-end"}>
             <TextField
               label="Service ID"
@@ -180,7 +180,7 @@ const ManageServices = () => {
 
           <div
             className={
-              " border gap-2 grid grid-cols-2 text-[15px] rounded-[13px]  justify-start"
+              "gap-2 grid grid-cols-2 text-[15px] rounded-[13px]  justify-start"
             }
           >
             <TextField
@@ -221,7 +221,7 @@ const ManageServices = () => {
             />
           </div>
 
-          <div className={"grid grid-cols-2 border row-span-4 gap-5"}>
+          <div className={"grid grid-cols-2 row-span-4 gap-5"}>
             <div
               className={
                 "grid col-span-2 row-span-8 grid-cols-2 grid-rows-5 gap-5"
@@ -232,22 +232,20 @@ const ManageServices = () => {
                   className={"flex items-start px-2 w-full text-[12px]"}
                 ></span>
                 <TextField type="file" isRequired={true} color={"success"} />
-                <img className={"border-2 my-5 rounded-[20px] w-3/4 h-full"} />
+                <img className={"my-5 rounded-[20px] w-3/4 h-full"} />
               </div>
               <div className={"row-span-5 flex-col flex items-center"}>
                 <span
                   className={"flex items-start px-2 w-full text-[12px]"}
                 ></span>
                 <TextField type="file" isRequired={true} color={"success"} />
-                <img className={"border-2 my-5 rounded-[20px] w-3/4 h-full"} />
+                <img className={"my-5 rounded-[20px] w-3/4 h-full"} />
               </div>
             </div>
           </div>
         </form>
 
-        <div
-          className={"w-[80%] h-[80px] border flex-row  flex px-5 justify-end"}
-        >
+        <div className={"w-[80%] h-[80px] flex-row  flex px-5 justify-end"}>
           <Button
             className={
               "bg-[#0FAF72] mr-2 hover:shadow-l w-[10%] h-[60%]  text-white font-medium rounded-[20px] py-[10px] hover:bg-green-400"

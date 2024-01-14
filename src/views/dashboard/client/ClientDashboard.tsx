@@ -4,8 +4,6 @@ import { PathProperties } from "../../../util/PathProperties.ts";
 import { Outlet } from "react-router-dom";
 import UserContext from "../../../context/UserContext.ts";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import Cookies from "js-cookie";
 
 const list: PathProperties[] = [
   {

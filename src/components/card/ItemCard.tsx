@@ -13,15 +13,17 @@ const ItemCard = ({element}) => {
                 shadow="sm"
                 radius="lg"
                 width="100%"
-                alt={item.title}
+                alt={item.name}
                 className="w-full object-cover h-[200px]"
                 src={'src/assets/Eco Track Pro Logo.png'}
             />
         </CardBody>
         <CardFooter className="text-small flex flex-col pb-5 justify-between">
-            <b className={'text-[18px]'}>{item.title}</b>
+            <b className={'text-[18px]'}>{item.name}</b>
             <br/>
             <p className="text-default-500 text-[20px]">${item.price}</p>
+            <br/>
+            <p className="text-default-500 text-[20px]">${item.qty}</p>
             <br/>
         </CardFooter>
 
