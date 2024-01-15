@@ -2,10 +2,13 @@ import TextField from "../../../../components/input/TextField.tsx";
 import { Button } from "@nextui-org/react";
 import SubscriptionCard from "../../../../components/card/SubscriptionCard.tsx";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 import { RadioGroup, Radio } from "@nextui-org/react";
 
 const ManageSubscriptions = () => {
+  const [id, setId] = useState<string>("");
   const [service_id, setService_id] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -13,7 +16,34 @@ const ManageSubscriptions = () => {
   const [remarks, setRemarks] = useState<string>("");
   const [availability, setAvailability] = useState<boolean>(false);
   const [imageFile, setImageFile] = useState<File>();
-  
+
+  const handleService_idChange = (newValue: string) => {
+    setService_id(newValue);
+  };
+
+  const handleNameChange = (newValue: string) => {
+    setName(newValue);
+  };
+
+  const handleDescriptionChange = (newValue: string) => {
+    setDescription(newValue);
+  };
+
+  const handlePriceChange = (newValue: string) => {
+    setPrice(parseInt(newValue));
+  };
+
+  const handleRemarksChange = (newValue: string) => {
+    setRemarks(newValue);
+  };
+
+  const handleAvailabilityChange = (newValue: boolean) => {
+    setAvailability(newValue);
+  };
+
+  const handleImageFileChange = (newValue: File) => {
+    setImageFile(newValue);
+  };
 
   return (
     <div>
@@ -45,6 +75,7 @@ const ManageSubscriptions = () => {
                 type="text"
                 isRequired={true}
                 color={"success"}
+                onChange={handleService_idChange}
               />
             </div>
             <div className={"flex  p-1 justify-end col-span-2"}>
@@ -53,6 +84,7 @@ const ManageSubscriptions = () => {
                 type="text"
                 isRequired={true}
                 color={"success"}
+                onChange={handleNameChange}
               />
             </div>
             <div className={"flex  p-1 justify-end col-span-2"}>
@@ -61,6 +93,7 @@ const ManageSubscriptions = () => {
                 type="text"
                 isRequired={true}
                 color={"success"}
+                onChange={handleDescriptionChange}
               />
             </div>
             <div className={"flex p-1  justify-end col-span-2"}>
@@ -69,6 +102,7 @@ const ManageSubscriptions = () => {
                 type="text"
                 isRequired={true}
                 color={"success"}
+                onChange={handlePriceChange}
               />
             </div>
             <div
@@ -88,6 +122,7 @@ const ManageSubscriptions = () => {
                 type="text"
                 isRequired={true}
                 color={"success"}
+                onChange={handleRemarksChange}
               />
             </div>
           </div>
