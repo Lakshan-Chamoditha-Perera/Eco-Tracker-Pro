@@ -10,7 +10,6 @@ import { PackageDto } from "../../../../dto/package.dto.ts";
 import StandardResponse from "../../../../dto/rsp/StandardResponse.tsx";
 
 const ManageSubscriptions = () => {
-  const [id, setId] = useState<string>("");
   const [service_id, setService_id] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -99,27 +98,32 @@ const ManageSubscriptions = () => {
   };
 
   const deletePackage = () => {
-    if (id) {
+    if (service_id !== "" && service_id !== undefined && service_id !== null) {
       let config = {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         url: "http://localhost:3001/package/delete",
-        data: {
-          _id: service_id,
+        params: {
+          id: service_id,
         },
       };
 
       let rsp = axios.request(config);
 
       rsp.then((response) => {
-        console.log(response.data);
         let rsp = response.data as StandardResponse;
         if (rsp.status === 200) {
-          fetchPackagesList();
           Swal.fire("Package Deleted");
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Package Not Deleted ",
+            text: rsp.message,
+          });
         }
+        fetchPackagesList();
       });
     } else {
       Swal.fire("Select a package to delete");
@@ -235,7 +239,10 @@ const ManageSubscriptions = () => {
           <Button className={"bg-yellow-500 text-white rounded-[10px] p-2 m-2"}>
             Update
           </Button>
-          <Button className={"bg-red-500 text-white rounded-[10px] p-2 m-2"}>
+          <Button
+            className={"bg-red-500 text-white rounded-[10px] p-2 m-2"}
+            onPress={deletePackage}
+          >
             Delete
           </Button>
         </div>
