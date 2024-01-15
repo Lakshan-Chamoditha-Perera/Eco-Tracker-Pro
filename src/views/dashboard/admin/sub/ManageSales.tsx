@@ -202,7 +202,7 @@ const ManageSales = () => {
         >
           {itemList.map((item, index) => (
             <ItemCard
-              key={item.id}
+              key={index}
               element={item}
               onPress={() => {
                 setName(item.name);
