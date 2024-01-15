@@ -6,6 +6,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 import { RadioGroup, Radio } from "@nextui-org/react";
+import { PackageDto } from "../../../../dto/package.dto.ts";
+import StandardResponse from "../../../../dto/rsp/StandardResponse.tsx";
 
 const ManageSubscriptions = () => {
   const [id, setId] = useState<string>("");
@@ -16,6 +18,33 @@ const ManageSubscriptions = () => {
   const [remarks, setRemarks] = useState<string>("");
   const [availability, setAvailability] = useState<boolean>(false);
   const [imageFile, setImageFile] = useState<File>();
+
+  const [subscriptionList, setSubscriptionList] = useState<PackageDto[]>([]);
+
+  const fetchPackagesList = () => {
+    let config = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      url: "http://localhost:3001/package/getAll",
+    };
+
+    let rsp = axios.request(config);
+
+    rsp.then((response) => {
+      console.log(response.data);
+      let rsp = response.data as StandardResponse;
+      let data = rsp.data as PackageDto[];
+
+      //   console.log(data);
+
+      setSubscriptionList(data);
+    });
+  };
+  useEffect(() => {
+    fetchPackagesList();
+  }, []);
 
   const handleService_idChange = (newValue: string) => {
     setService_id(newValue);
@@ -43,6 +72,34 @@ const ManageSubscriptions = () => {
 
   const handleImageFileChange = (newValue: File) => {
     setImageFile(newValue);
+  };
+
+  const savePackage = () => {
+    let config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      url: "http://localhost:3001/package/save",
+      data: {
+        name: name,
+        description: description,
+        price: price,
+        remarks: remarks,
+        availability: availability,
+      },
+    };
+
+    let rsp = axios.request(config);
+
+    rsp.then((response) => {
+      console.log(response.data);
+      let rsp = response.data as StandardResponse;
+      if (rsp.status === 200) {
+        fetchPackagesList();
+        Swal.fire("Package Saved");
+      }
+    });
   };
 
   return (
@@ -140,7 +197,10 @@ const ManageSubscriptions = () => {
           </div>
         </form>
         <div className={"flex flex-row justify-end p-2"}>
-          <Button className={"bg-green-500 text-white rounded-[10px] p-2 m-2"}>
+          <Button
+            className={"bg-green-500 text-white rounded-[10px] p-2 m-2"}
+            onPress={savePackage}
+          >
             Save
           </Button>
           <Button className={"bg-yellow-500 text-white rounded-[10px] p-2 m-2"}>
@@ -155,18 +215,28 @@ const ManageSubscriptions = () => {
       <section
         className={"flex flex-col mt-[50px] border p-[20px] rounded-[20px]"}
       >
-        <h1 className={"mb-3"}>OnGoing Packages</h1>
+        <h2 className={"text-[20px] font-medium text-[#004B50]"}>
+          Ongoing Packages
+        </h2>
         <div
           className={
             "grid grid-cols-3 p-5 gap-5 w-full border min-h-[250px] justify-between"
           }
         >
-          <SubscriptionCard />
-          <SubscriptionCard />
-          <SubscriptionCard />
-          <SubscriptionCard />
-          <SubscriptionCard />
-          <SubscriptionCard />
+          {subscriptionList.map((e, index) => (
+            <SubscriptionCard
+              key={index}
+              ele={e}
+              onPress={() => {
+                setService_id(e._id);
+                setName(e.name);
+                setDescription(e.description);
+                setPrice(e.price);
+                setRemarks(e.remarks);
+                setAvailability(e.availability);
+              }}
+            />
+          ))}
         </div>
       </section>
     </div>
