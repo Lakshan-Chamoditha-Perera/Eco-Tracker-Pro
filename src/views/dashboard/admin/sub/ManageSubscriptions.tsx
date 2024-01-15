@@ -33,12 +33,8 @@ const ManageSubscriptions = () => {
     let rsp = axios.request(config);
 
     rsp.then((response) => {
-      console.log(response.data);
       let rsp = response.data as StandardResponse;
       let data = rsp.data as PackageDto[];
-
-      //   console.log(data);
-
       setSubscriptionList(data);
     });
   };
@@ -102,6 +98,34 @@ const ManageSubscriptions = () => {
     });
   };
 
+  const deletePackage = () => {
+    if (id) {
+      let config = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        url: "http://localhost:3001/package/delete",
+        data: {
+          _id: service_id,
+        },
+      };
+
+      let rsp = axios.request(config);
+
+      rsp.then((response) => {
+        console.log(response.data);
+        let rsp = response.data as StandardResponse;
+        if (rsp.status === 200) {
+          fetchPackagesList();
+          Swal.fire("Package Deleted");
+        }
+      });
+    } else {
+      Swal.fire("Select a package to delete");
+    }
+  };
+
   return (
     <div>
       <div
@@ -133,6 +157,7 @@ const ManageSubscriptions = () => {
                 isRequired={true}
                 color={"success"}
                 onChange={handleService_idChange}
+                value={service_id}
               />
             </div>
             <div className={"flex  p-1 justify-end col-span-2"}>
@@ -142,6 +167,7 @@ const ManageSubscriptions = () => {
                 isRequired={true}
                 color={"success"}
                 onChange={handleNameChange}
+                value={name}
               />
             </div>
             <div className={"flex  p-1 justify-end col-span-2"}>
@@ -151,6 +177,7 @@ const ManageSubscriptions = () => {
                 isRequired={true}
                 color={"success"}
                 onChange={handleDescriptionChange}
+                value={description}
               />
             </div>
             <div className={"flex p-1  justify-end col-span-2"}>
@@ -160,6 +187,7 @@ const ManageSubscriptions = () => {
                 isRequired={true}
                 color={"success"}
                 onChange={handlePriceChange}
+                value={price}
               />
             </div>
             <div
@@ -180,6 +208,7 @@ const ManageSubscriptions = () => {
                 isRequired={true}
                 color={"success"}
                 onChange={handleRemarksChange}
+                value={remarks}
               />
             </div>
           </div>
@@ -224,10 +253,10 @@ const ManageSubscriptions = () => {
           }
         >
           {subscriptionList.map((e, index) => (
-            <SubscriptionCard
+            <div
               key={index}
-              ele={e}
-              onPress={() => {
+              onClick={() => {
+                console.log(e);
                 setService_id(e._id);
                 setName(e.name);
                 setDescription(e.description);
@@ -235,7 +264,9 @@ const ManageSubscriptions = () => {
                 setRemarks(e.remarks);
                 setAvailability(e.availability);
               }}
-            />
+            >
+              <SubscriptionCard key={index} ele={e} />
+            </div>
           ))}
         </div>
       </section>
