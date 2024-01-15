@@ -1,10 +1,19 @@
 import TextField from "../../../../components/input/TextField.tsx";
 import { Button } from "@nextui-org/react";
 import SubscriptionCard from "../../../../components/card/SubscriptionCard.tsx";
+import { useEffect, useState } from "react";
 
 import { RadioGroup, Radio } from "@nextui-org/react";
 
 const ManageSubscriptions = () => {
+  const [service_id, setService_id] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [price, setPrice] = useState<number>(0);
+  const [remarks, setRemarks] = useState<string>("");
+  const [availability, setAvailability] = useState<boolean>(false);
+  const [imageFile, setImageFile] = useState<File>();
+  
 
   return (
     <div>
