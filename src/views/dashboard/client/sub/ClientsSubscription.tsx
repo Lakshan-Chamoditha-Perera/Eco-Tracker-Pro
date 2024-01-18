@@ -60,7 +60,6 @@ const ClientsSubscription = () => {
         </div>
         <div className={'flex w-0.8 p-3 justify-evenly min-h-[500px] flex-col border'}>
             <div className={'grid gap-5 grid-cols-3 w-0.8 p-3 justify-evenly min-h-[600px] flex-col border'}>
-                <SubscriptionCard/>
             </div>
         </div>
     </div>)
