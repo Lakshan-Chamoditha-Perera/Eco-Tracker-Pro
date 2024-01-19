@@ -33,7 +33,6 @@ function SignIn() {
     axios
       .request(config)
       .then((response) => {
-        console.log(response.data);
         if (response.data.status === 200) {
           console.log("client fetched");
           console.log(response.data.data);

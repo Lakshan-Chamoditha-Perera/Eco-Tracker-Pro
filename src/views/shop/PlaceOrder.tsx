@@ -18,6 +18,58 @@ import {
 const PlaceOrder = () => {
   const [itemList, setItemList] = useState<ItemDto[]>([]);
   const [cartList, setCartList] = useState<ItemDto[]>([]);
+  const [total_price, setTotalPrice] = useState<number>(0);
+
+  const place_order = () => {
+    let user = JSON.parse(localStorage.getItem("user") as string);
+
+    let config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      url: "http://localhost:3001/order/save",
+      data: {
+        user: user ? user : null,
+        itemlist: cartList,
+        totalAmount: total_price,
+      },
+    };
+
+    let rsp = axios.request(config);
+    rsp.then((response) => {
+      console.log(response.data);
+      let rsp = response.data as StandardResponse;
+      if (rsp.status == 200) {
+        Swal.fire({
+          title: "Order Placed!",
+          text: "Your order has been placed successfully!",
+          icon: "success",
+          confirmButtonText: "Ok",
+        });
+      } else {
+        Swal.fire({
+          title: "Order Failed!",
+          text: "Your order has been failed!",
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      }
+    });
+  };
+
+  const calc_total = () => {
+    setTotalPrice(0);
+    let price = 0;
+    cartList.forEach((element) => {
+      price += element.qty * element.price;
+    });
+    setTotalPrice(price);
+  };
+
+  useEffect(() => {
+    calc_total();
+  }, [cartList]);
 
   const addToCart = (item: ItemDto) => {
     let qty = 0;
@@ -33,20 +85,27 @@ const PlaceOrder = () => {
           return "You need to enter quantity!";
         }
       },
-    }).then((result) => {
-      qty = parseInt(result.value as string);
-      if (cartList.includes(item)) {
-        let index = cartList.indexOf(item);
-        let cartItem = cartList[index];
-        cartItem.qty = cartItem.qty + qty;
-        setCartList([...cartList]);
-      } else {
-        item.qty = qty;
-        setCartList([...cartList, item]);
-      }
-    });
-    //check if item is already in the cart
-   
+    })
+      .then((result) => {
+        qty = parseInt(result.value as string);
+        if (cartList.includes(item)) {
+          let index = cartList.indexOf(item);
+          let cartItem = cartList[index];
+          cartItem.qty = cartItem.qty + qty;
+          setCartList([...cartList]);
+        } else {
+          item.qty = qty;
+          setCartList([...cartList, item]);
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Error!",
+          text: "Something went wrong!",
+          icon: "error",
+          confirmButtonText: "Ok",
+        })
+      });
   };
 
   useEffect(() => {
@@ -133,7 +192,7 @@ const PlaceOrder = () => {
           >
             <h1 className={"text-[20px]"}>Total Price</h1>
             <h1 className={"text-5xl p-3 border font-medium text-green-500"}>
-              Rs.1000.00
+              {`Rs.${total_price}`}
             </h1>
           </div>
           <div
@@ -149,7 +208,9 @@ const PlaceOrder = () => {
               isRequired={true}
               color={"success"}
             />
-            <Button color={"success"}>Pay</Button>
+            <Button color={"success"} onClick={place_order}>
+              Place Order
+            </Button>
           </div>
         </div>
       </div>
