@@ -6,4 +6,5 @@ export interface ServiceDto {
   price: number;
   availability: boolean;
   remarks: string;
+  img_url: string;
 }

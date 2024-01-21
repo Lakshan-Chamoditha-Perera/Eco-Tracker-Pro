@@ -16,10 +16,14 @@ const ManageServices = () => {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
-  const [img_1, setImg_1] = useState<string>("");
-  const [img_2, setImg_2] = useState<string>("");
   const [selected, setSelected] = useState("available");
   const [remarks, setRemarks] = useState<string>("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    setSelectedFile(file);
+  };
 
   const handleNameChange = (newValue: string) => {
     setName(newValue);
@@ -53,6 +57,31 @@ const ManageServices = () => {
     refreshServiceList();
   }, []);
 
+  const saveImage = (selectedFile: File | null): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      if (!selectedFile) {
+        reject("File input element not found.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+
+      const config = {
+        method: "post",
+        url: "http://localhost:3001/image",
+        data: formData,
+      };
+      axios
+        .request(config)
+        .then((response) => {
+          resolve(response.data.profile_url);
+        })
+        .catch((error) => {
+          reject("Error uploading image");
+        });
+    });
+  };
   return (
     <div className="py-3 bg-[#FBFBFB] ">
       <div
@@ -63,17 +92,6 @@ const ManageServices = () => {
         <h1 className={"text-5xl  font-medium mb-5 text-green-500"}>
           Services
         </h1>
-        {/**/}
-        {/*grid grid-cols-4 border gap-4*/}
-        {/*{
-                    services.map((service, index) => (
-                        <li className={'w-full'}>
-                            <ServiceCard1 key={index} title={service.title} content={service.content}
-                                         img_url={service.img_url}/>
-                        </li>
-                    ))
-                }*/}
-
         <ul
           className={
             "flex flex-row w-full max-h-350px justify-between overflow-y-scroll"
@@ -104,6 +122,7 @@ const ManageServices = () => {
                 id={element.id}
                 service_id={element.service_id}
                 remark={element.remarks}
+                img_url={element.img_url}
               />
               <div className={"pb-5 flex w-full flex-row px-1 justify-end "}>
                 <Button
@@ -144,7 +163,11 @@ const ManageServices = () => {
           Manage Services
         </h2>
 
-        <form className={"p-[20px] w-[80%] grid bg-white grid-rows-8 gap-5 "}>
+        <form
+          className={
+            "p-[20px] w-[80%] grid bg-white max-h-[900px] border grid-rows-8 gap-5 "
+          }
+        >
           <div className={"flex justify-end"}>
             <TextField
               label="Service ID"
@@ -227,19 +250,25 @@ const ManageServices = () => {
                 "grid col-span-2 row-span-8 grid-cols-2 grid-rows-5 gap-5"
               }
             >
-              <div className={"row-span-5 flex-col flex items-center"}>
-                <span
-                  className={"flex items-start px-2 w-full text-[12px]"}
-                ></span>
-                <TextField type="file" isRequired={true} color={"success"} />
-                <img className={"my-5 rounded-[20px] w-3/4 h-full"} />
-              </div>
-              <div className={"row-span-5 flex-col flex items-center"}>
-                <span
-                  className={"flex items-start px-2 w-full text-[12px]"}
-                ></span>
-                <TextField type="file" isRequired={true} color={"success"} />
-                <img className={"my-5 rounded-[20px] w-3/4 h-full"} />
+              <div
+                className={"row-span-5 col-span-2 flex-col flex items-center"}
+              >
+                <div className="w-full border p-2 rounded-[20px]">
+                  <input
+                    type="file"
+                    className="w-full border"
+                    onChange={handleFileChange}
+                  />
+                  {selectedFile && (
+                    <img
+                      className={
+                        "my-5 rounded-[20px] w-3/4 h-full max-h-[250px]"
+                      }
+                      src={URL.createObjectURL(selectedFile)}
+                      alt="Preview"
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -254,7 +283,6 @@ const ManageServices = () => {
           >
             Save
           </Button>
-
           <Button
             className={
               "bg-[#0FAF72] hover:shadow-l w-[10%] h-[60%]  text-white font-medium rounded-[20px] py-[10px] hover:bg-green-400"
@@ -269,42 +297,57 @@ const ManageServices = () => {
   );
 
   async function saveService() {
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: "http://localhost:3001/service/save",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {
-        name: `${name}`,
-        description: `${description}`,
-        price: `${price}`,
-        availability: selected == "available" ? true : false,
-        remarks: `${remarks}`,
-      },
-    };
+    try {
+      const imageUrl = await saveImage(selectedFile);
 
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(response.data);
+      const config = {
+        method: "post",
+        url: "http://localhost:3001/service/save",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          name: `${name}`,
+          description: `${description}`,
+          price: `${price}`,
+          availability: selected == "available" ? true : false,
+          remarks: `${remarks}`,
+          img_url: `${imageUrl}`,
+        },
+      };
+
+      const response = await axios.request(config);
+
+      console.log(response.data);
+      Swal.fire({
+        title: "Success!",
+        text: "Service has been saved.",
+        icon: "success",
+        confirmButtonColor: "#0FAF72",
+      });
+
+      refreshServiceList();
+    } catch (error) {
+      console.error(error);
+
+      if (error === "Error uploading image") {
+        // Handle image upload error
         Swal.fire({
-          title: "Success!",
-          text: "Service has been saved.",
-          icon: "success",
+          title: "Error!",
+          text: "Image upload failed. Service has not been saved.",
+          icon: "error",
           confirmButtonColor: "#0FAF72",
         });
-        refreshServiceList();
-      })
-      .catch((error) => {
+      } else {
+        // Handle other errors
         Swal.fire({
           title: "Error!",
           text: "Service has not been saved.",
           icon: "error",
           confirmButtonColor: "#0FAF72",
         });
-      });
+      }
+    }
   }
 
   async function updateService() {

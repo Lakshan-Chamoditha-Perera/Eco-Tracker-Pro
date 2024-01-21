@@ -32,7 +32,7 @@ const PlaceOrder = () => {
       data: {
         user: user ? user : null,
         itemlist: cartList,
-        totalAmount: total_price,
+        total: total_price,
       },
     };
 
@@ -104,7 +104,7 @@ const PlaceOrder = () => {
           text: "Something went wrong!",
           icon: "error",
           confirmButtonText: "Ok",
-        })
+        });
       });
   };
 
