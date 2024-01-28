@@ -21,7 +21,7 @@ const ItemCard = (props) => {
           width="100%"
           alt={item.name}
           className="w-full object-cover h-[200px]"
-          src={"src/assets/Eco Track Pro Logo.png"}
+          src={item.image}
         />
       </CardBody>
       <CardFooter className="text-small flex flex-col pb-5 justify-between">

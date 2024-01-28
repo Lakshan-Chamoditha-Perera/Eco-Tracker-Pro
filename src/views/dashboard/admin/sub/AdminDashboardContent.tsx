@@ -34,10 +34,10 @@ const AdminDashboardContent = () => {
       >
         <header
           className={
-            "flex flex-row bg-[#D4F2E6] drop-shadow-xl  p-2 col-span-2 row-span-4 h-full rounded-[20px] border-green-950 "
+            "flex flex-row bg-[#D4F2E6] drop-shadow-xl  p-2 col-span-2 row-span-4 h-full rounded-[20px]  "
           }
         >
-          <div className={"p-5 border-2 w-[60%]"}>
+          <div className={"p-5 w-[60%]"}>
             <h2 className={"text-3xl mb-7  font-medium text-[#0FAF72]"}>
               Welcome Back!
             </h2>
@@ -52,15 +52,9 @@ const AdminDashboardContent = () => {
             alt={"profile"}
           />
         </header>
-        <div
-          className={
-            "flex rounded-[20px] col-span-1 row-span-4"
-          }
-        >
+        <div className={"flex rounded-[20px] col-span-1 row-span-4"}>
           <div
-            className={
-              "p-5 border grid grid-rows-5 shadow-lg  rounded-[20px] w-full"
-            }
+            className={"p-5 grid grid-rows-5 shadow-lg  rounded-[20px] w-full"}
           >
             <h2 className={"text-3xl mb-7  font-medium text-[#0FAF72]"}>
               Recent Orders
@@ -69,7 +63,7 @@ const AdminDashboardContent = () => {
               {ordersList.map((order) => (
                 <div
                   key={order._id}
-                  className="border p-2 mb-2 rounded-md bg-white hover:bg-gray-100 transition duration-300 ease-in-out"
+                  className="p-2 mb-2 rounded-md bg-white hover:bg-gray-100 transition duration-300 ease-in-out"
                 >
                   <h3 className="text-lg font-semibold mb-2">
                     Transaction ID: {order._id}
@@ -89,12 +83,12 @@ const AdminDashboardContent = () => {
         >
           <li
             className={
-              "shadow-lg h-[200px] bg-white p-2 border-red-600 border grid-cols-4 rounded-[20px] grid gap-3 grid-rows-3"
+              "shadow-lg h-[200px] bg-white p-2 grid-cols-4 rounded-[20px] grid gap-3 grid-rows-3"
             }
           >
             <div
               className={
-                "col-span-3 border-blue-400 border flex-col flex items-center justify-around bg-green-500 rounded-[10px]"
+                "col-span-3 flex-col flex items-center justify-around bg-green-500 rounded-[10px]"
               }
             >
               <h1
@@ -112,7 +106,7 @@ const AdminDashboardContent = () => {
             >
               <h1
                 className={
-                  "ml-5 w-full text-6xl border font-medium flex justify-end text-green-500"
+                  "ml-5 w-full text-6xl  font-medium flex justify-end text-green-500"
                 }
               >
                 Rs.1000.00
@@ -122,7 +116,7 @@ const AdminDashboardContent = () => {
 
           <li
             className={
-              "shadow-lg h-[200px] bg-white p-2 border-red-600 border grid-cols-4 rounded-[20px] grid gap-3 grid-rows-3"
+              "shadow-lg h-[200px] bg-white p-2 border grid-cols-4 rounded-[20px] grid gap-3 grid-rows-3"
             }
           >
             <div
@@ -145,7 +139,7 @@ const AdminDashboardContent = () => {
             >
               <h1
                 className={
-                  "ml-5 w-full text-6xl border font-medium flex justify-end text-green-500"
+                  "ml-5 w-full text-6xl font-medium flex justify-end text-green-500"
                 }
               >
                 Rs.1000.00
@@ -155,12 +149,12 @@ const AdminDashboardContent = () => {
 
           <li
             className={
-              "shadow-lg h-[200px] bg-white p-2 border-red-600 border grid-cols-4 rounded-[20px] grid gap-3 grid-rows-3"
+              "shadow-lg h-[200px] bg-white p-2 grid-cols-4 rounded-[20px] grid gap-3 grid-rows-3"
             }
           >
             <div
               className={
-                "col-span-4 border-blue-400 border flex-col flex items-center justify-around bg-green-500 rounded-[10px]"
+                "col-span-4 flex-col flex items-center justify-around bg-green-500 rounded-[10px]"
               }
             >
               <h1
@@ -178,7 +172,7 @@ const AdminDashboardContent = () => {
             >
               <h1
                 className={
-                  "ml-5 w-full text-6xl border font-medium flex justify-end text-green-500"
+                  "ml-5 w-full text-6xl font-medium flex justify-end text-green-500"
                 }
               >
                 250KG
@@ -187,12 +181,12 @@ const AdminDashboardContent = () => {
           </li>
           <li
             className={
-              "shadow-lg h-[200px] bg-white p-2 border-red-600 border grid-cols-4 rounded-[20px] grid gap-3 grid-rows-3"
+              "shadow-lg h-[200px] bg-white p-2 grid-cols-4 rounded-[20px] grid gap-3 grid-rows-3"
             }
           >
             <div
               className={
-                "col-span-3 border-blue-400 border flex-col flex items-center justify-around bg-green-500 rounded-[10px]"
+                "col-span-3 flex-col flex items-center justify-around bg-green-500 rounded-[10px]"
               }
             >
               <h1
@@ -210,7 +204,7 @@ const AdminDashboardContent = () => {
             >
               <h1
                 className={
-                  "ml-5 w-full text-6xl border font-medium flex justify-end text-green-500"
+                  "ml-5 w-full text-6xl font-medium flex justify-end text-green-500"
                 }
               >
                 95
@@ -221,11 +215,7 @@ const AdminDashboardContent = () => {
       </div>
       <div className={"flex w-0.8 justify-evenly h-[450px] flex-col"}>
         <div className={"grid grid-cols-4 gap-5 h-full justify-evenly"}>
-          <div
-            className={
-              "shadow-lg bg-white p-3 border col-span-2 rounded-[20px]"
-            }
-          >
+          <div className={"shadow-lg bg-white p-3 col-span-2 rounded-[20px]"}>
             <h2 className={"text-3xl mb-7  font-medium text-[#0FAF72]"}>
               Service Request
             </h2>
@@ -233,11 +223,7 @@ const AdminDashboardContent = () => {
               <ServiceRequestAccordion />
             </div>
           </div>
-          <div
-            className={
-              "shadow-lg bg-white p-3 border col-span-2 rounded-[20px]"
-            }
-          >
+          <div className={"shadow-lg bg-white p-3 col-span-2 rounded-[20px]"}>
             <h2 className={"text-3xl mb-7  font-medium text-[#0FAF72]"}>
               Complains
             </h2>

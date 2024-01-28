@@ -14,8 +14,42 @@ const ManageSales = () => {
   const [price, setPrice] = useState<number>(0);
   const [qty, setQty] = useState<number>(0);
   const [itemList, setItemList] = useState<ItemDto[]>([]);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const saveItem = () => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    setSelectedFile(file);
+  };
+
+  const saveImage = (selectedFile: File | null): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      if (!selectedFile) {
+        reject("File input element not found.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+
+      const config = {
+        method: "post",
+        url: "http://localhost:3001/image",
+        data: formData,
+      };
+      axios
+        .request(config)
+        .then((response) => {
+          resolve(response.data.profile_url);
+        })
+        .catch((error) => {
+          reject("Error uploading image");
+        });
+    });
+  };
+
+  const saveItem = async () => {
+    const imageUrl = await saveImage(selectedFile);
+
     let config = {
       method: "POST",
       headers: {
@@ -27,6 +61,7 @@ const ManageSales = () => {
         description: description,
         price: price,
         qty: qty,
+        image: imageUrl,
       },
     };
 
@@ -62,7 +97,7 @@ const ManageSales = () => {
 
   const handleQtyChange = (newValue: string) => {
     try {
-      setQty(parseInt(newValue));
+      Number.isNaN(parseInt(newValue)) ? setQty(0) : setQty(parseInt(newValue));
     } catch (e) {
       Swal.fire("Invalid Qty");
     }
@@ -95,7 +130,7 @@ const ManageSales = () => {
     <div>
       <div
         className={
-          "flex w-0.8 justify-evenly p-2 min-h-[100px] flex-col border"
+          "flex w-0.8 shadow-lg justify-evenly p-2 min-h-[100px] flex-col drop-shadow-xl "
         }
       >
         <h1 className={"text-5xl font-medium mb-5 text-green-500"}>
@@ -103,7 +138,7 @@ const ManageSales = () => {
         </h1>
       </div>
       <section
-        className={"flex flex-col mt-[50px] border p-[20px] rounded-[20px]"}
+        className={"flex flex-col mt-[50px] shadow  p-[20px] rounded-[20px]"}
       >
         <h2 className={"text-[20px] font-medium text-[#004B50]"}>
           Manage Items
@@ -161,15 +196,33 @@ const ManageSales = () => {
             </div>
           </div>
           <div className={"col-span-2 border-red-600 border p-3"}>
-            <div className={"grid grid-rows-6 "}>
-              <div className={"flex-col p-1 flex items-center"}>
-                <TextField type="file" isRequired={true} color={"success"} />
-              </div>
-              <img
+            <div className={"grid grid-cols-2 row-span-4 gap-5"}>
+              <div
                 className={
-                  "border-2  border-red-800 row-span-5 rounded-[10px] w-[100%] h-[100%] "
+                  "grid col-span-2 row-span-8 grid-cols-2 grid-rows-5 gap-5"
                 }
-              />
+              >
+                <div
+                  className={"row-span-5 col-span-2 flex-col flex items-center"}
+                >
+                  <div className="w-full border p-2 rounded-[20px]">
+                    <input
+                      type="file"
+                      className="w-full border"
+                      onChange={handleFileChange}
+                    />
+                    {selectedFile && (
+                      <img
+                        className={
+                          "my-5 rounded-[20px] w-3/4 h-full max-h-[250px]"
+                        }
+                        src={URL.createObjectURL(selectedFile)}
+                        alt="Preview"
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </form>

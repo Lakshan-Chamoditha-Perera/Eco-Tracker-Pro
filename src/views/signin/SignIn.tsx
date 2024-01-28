@@ -82,6 +82,10 @@ function SignIn() {
                 text: response.data.message,
               });
 
+              console.log("------------------------------------------------------------------------------------------------------------------------");
+              console.log(response.data.data);
+              console.log("------------------------------------------------------------------------------------------------------------------------");
+
               // Cookies.set("token", response.data.data.token); //-> npm install js-cookie , npm i --save-dev @types/js-cookie
               // Cookies.set("email", response.data.data.email); // JSON.parse("")
               localStorage.setItem("token", response.data.data.token);

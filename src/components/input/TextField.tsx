@@ -3,7 +3,6 @@ import React from "react";
 
 const TextField = (props: any) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        // Call the onChange function passed in the props with the updated value
         props.onChange(event.target.value);
     };
     return (<Input

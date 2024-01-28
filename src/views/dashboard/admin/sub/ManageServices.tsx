@@ -37,6 +37,10 @@ const ManageServices = () => {
   const handleRemarkChange = (newValue: string) => {
     setRemarks(newValue);
   };
+  
+  const handleService_idChange = (newValue: string) => {
+
+  }
 
   let refreshServiceList = () => {
     let config = {
@@ -176,6 +180,9 @@ const ManageServices = () => {
               value={service_id}
               isRequired={true}
               color={"success"}
+       editable={false}
+              onChange={handleService_idChange}
+              // onChange={(newValue) => setService_id(newValue)}
             />
           </div>
           <div className={"flex justify-end"}>
